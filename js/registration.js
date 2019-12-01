@@ -45,7 +45,7 @@ const isNameUnique = (userName, arr) => !arr.find(({ name }) => name === userNam
 
 const isPasswordLengthGood = userPassword => userPassword.length > 5;
 const isPasswordPopular = userPassword => !passwordBlackList.includes(userPassword);
-const isPasswordLatin = userPassword => !userPassword.match(/[а-я]/g);
+const isPasswordLatin = userPassword => !userPassword.match(/[^A-Za-z0-9%#.,*+=?^${}()|/<>/;':"[\]\\]/g);
 
 const isEmailUnique = (userEmail, arr) => !arr.find(({ email }) => email === userEmail.toLowerCase());
 const isEmaiValid = userEmail => {
