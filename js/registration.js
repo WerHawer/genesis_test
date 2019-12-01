@@ -163,15 +163,15 @@ function finalCheck(e) {
         userLink.classList.add('registration-screen__link--active');
         userLink.href = '#hello';
 
-        // scroll animation
+        // scroll animation+addUser
         $(document).ready(function() {
             $("a[href=#hello]").on("click", function(e) {
                 const anchor = $(this);
                 $('html, body').stop().animate({
                     scrollTop: $(anchor.attr('href')).offset().top
                 }, 600);
+
                 addUser();
-                console.log('kokoko');
                 e.preventDefault();
                 return false;
             });
