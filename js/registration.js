@@ -11,7 +11,10 @@ const warningName = document.querySelector('.warning--name');
 const warningEmail = document.querySelector('.warning--email');
 const warningPassword = document.querySelector('.warning--password');
 
-const users = [];
+const usersFromLS = localStorage.getItem('users');
+const users = JSON.parse(usersFromLS) || [];
+
+console.log(users);
 
 const passwordBlackList = ['123456', '123456789', 'qwerty', '12345678', '111111', '1234567890', '1234567', 'password', '123123', '987654321', 'qwertyuiop', 'mynoob', '123321', '666666', '18atcskd2w', '7777777', '1q2w3e4r', '654321', '555555', '3rjs1la7qe', 'google', '1q2w3e4r5t', '123qwe', 'zxcvbnm', '1q2w3e', ];
 
@@ -31,6 +34,8 @@ const addUser = (name, email, password, lookingFor) => {
         userEmailInput.value = '';
         userPasswordInput.value = '';
     }
+
+    localStorage.setItem('users', JSON.stringify(users));
 };
 
 const isNameValid = userName => !userName.match(/[%#.,*+=?^${}()|/[\]\\]/g);
@@ -157,17 +162,21 @@ function finalCheck(e) {
     if (name && email && password && userLookingFor.value && userConfirm18.checked) {
         userLink.classList.add('registration-screen__link--active');
         userLink.href = '#hello';
-        //scroll animation
+
+        // scroll animation
         $(document).ready(function() {
-            $("a[href*=#]").on("click", function(e) {
+            $("a[href=#hello]").on("click", function(e) {
                 const anchor = $(this);
                 $('html, body').stop().animate({
                     scrollTop: $(anchor.attr('href')).offset().top
                 }, 600);
+                addUser();
+                console.log('kokoko');
                 e.preventDefault();
                 return false;
             });
         });
+
 
     } else {
 
@@ -186,4 +195,4 @@ function finalCheck(e) {
 
 userForm.addEventListener('input', _.debounce(finalCheck, 600));
 userForm.addEventListener('click', (e) => e.target === userLink && !userLink.classList.contains('registration-screen__link--active') ? e.preventDefault() : undefined);
-formBtn.addEventListener('click', (e) => e.target === userLink && userLink.classList.contains('registration-screen__link--active') ? addUser() : undefined);
+formBtn.addEventListener('click', (e) => e.target === userLink && userLink.classList.contains('registration-screen__link--active') ? console.log('good') : e.preventDefault());
