@@ -33,7 +33,7 @@ const addUser = (name, email, password, lookingFor) => {
     }
 };
 
-const isNameValid = userName => !userName.match(/[%#.*+=?^${}()|/[\]\\]/g);
+const isNameValid = userName => !userName.match(/[%#.,*+=?^${}()|/[\]\\]/g);
 const isNameLengthGood = userName => userName.length > 3 && userName.length < 16;
 const isNameUnique = (userName, arr) => !arr.find(({ name }) => name === userName);
 
@@ -147,7 +147,7 @@ function emailValidation(userEmail, arr = users) {
     return userEmail.toLowerCase();
 }
 
-function finalCheck() {
+function finalCheck(e) {
 
     const email = emailValidation();
     const name = nameValidation();
@@ -156,6 +156,18 @@ function finalCheck() {
 
     if (name && email && password && userLookingFor.value && userConfirm18.checked) {
         userLink.classList.add('registration-screen__link--active');
+        userLink.href = '#hello';
+        //scroll animation
+        $(document).ready(function() {
+            $("a[href*=#]").on("click", function(e) {
+                const anchor = $(this);
+                $('html, body').stop().animate({
+                    scrollTop: $(anchor.attr('href')).offset().top
+                }, 600);
+                e.preventDefault();
+                return false;
+            });
+        });
 
     } else {
 
