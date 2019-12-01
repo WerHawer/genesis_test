@@ -33,13 +33,14 @@ const addUser = (name, email, password, lookingFor) => {
         userNameInput.value = '';
         userEmailInput.value = '';
         userPasswordInput.value = '';
+        userLookingFor.forEach(el => el.checked = false);
     }
 
     localStorage.setItem('users', JSON.stringify(users));
 };
 
 const isNameValid = userName => !userName.match(/[%#.,*+=?^${}()|/[\]\\]/g);
-const isNameLengthGood = userName => userName.length > 3 && userName.length < 16;
+const isNameLengthGood = userName => userName.length > 2 && userName.length < 16;
 const isNameUnique = (userName, arr) => !arr.find(({ name }) => name === userName);
 
 const isPasswordLengthGood = userPassword => userPassword.length > 5;
@@ -65,7 +66,7 @@ function nameValidation(userName, arr = users) {
         err = 'При вводе имени используйте только буквы и цифры';
 
     } else if (!isNameLengthGood(userName)) {
-        err = 'Имя должно быть больше 3 и меньше 16 символов';
+        err = 'Имя должно быть больше 2 и меньше 16 символов';
 
     } else if (!isNameUnique(userName, arr)) {
         err = 'пользователь с таким именем уже существует';
