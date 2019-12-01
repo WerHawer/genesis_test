@@ -24,7 +24,7 @@ const idCreator = () => Date.now();
 const addUser = (name, email, password, lookingFor) => {
     const id = idCreator();
     name = userNameInput.value;
-    email = userEmailInput.value;
+    email = userEmailInput.value.toLowerCase();
     password = userPasswordInput.value;
     lookingFor = userLookingFor.value;
 
