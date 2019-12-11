@@ -23,27 +23,27 @@
 
                     <div class="registration-screen__question-container">
 
-                        <input class="registration-screen__radio" type="radio" name="looking_for" id="man_choise" value="man">
+                        <input class="registration-screen__radio" type="radio" name="looking_for" id="man_choise" value="man" required>
                         <label for="man_choise" class="registration-screen__question registration-screen__question--man">Вариант А</label>
 
-                        <input class="registration-screen__radio" type="radio" name="looking_for" id="woman_choise" value="woman">
+                        <input class="registration-screen__radio" type="radio" name="looking_for" id="woman_choise" value="woman" required>
                         <label for="woman_choise" class=" registration-screen__question registration-screen__question--woman">Вариант B</label>
                     </div>
 
 
                     <p class="registration-screen__name form-text">Ваше имя: <span class="warning warning--name">warning</span></p>
 
-                    <input type="text" name="user_name" class="registration-screen__name-input input" id="">
+                    <input type="text" name="user_name" class="registration-screen__name-input input" id="" required>
 
 
                     <p class="registration-screen__email form-text">Email:<span class="warning warning--email">warning</span></p>
-                    <input type="email" name="user_email" class="registration-screen__emil-input input" id="">
+                    <input type="email" name="user_email" class="registration-screen__emil-input input" id="" required>
 
 
                     <p class="registration-screen__password form-text">Придумайте пароль <span class="warning warning--password">warning</span></p>
-                    <input type="password" name="user_password" class="registration-screen__password-input input" id="">
+                    <input type="password" name="user_password" class="registration-screen__password-input input" id="" required>
 
-                    <input type="checkbox" name="confirm_18" class="registration-screen__confirm--checkbox" id="confirm_18" checked>
+                    <input type="checkbox" name="confirm_18" class="registration-screen__confirm--checkbox" id="confirm_18" checked required>
                     <label for="confirm_18" class="registration-screen__confirm">Регистрируясь, вы подтверждаете, что вам уже исполнилось 
                             18 лет и вы ознакомились с условиями пользования сайтом.
                             </label>

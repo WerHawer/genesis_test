@@ -11,6 +11,10 @@ const warningName = document.querySelector('.warning--name');
 const warningEmail = document.querySelector('.warning--email');
 const warningPassword = document.querySelector('.warning--password');
 
+let userNameGlobal;
+let userEmailGlobal;
+let userPasswordGlobal;
+
 const usersFromLS = localStorage.getItem('users');
 const users = JSON.parse(usersFromLS) || [];
 
@@ -59,17 +63,25 @@ function nameValidation(userName, arr = users) {
     let err;
 
     if (!userName) {
+        err = '';
+        userNameInput.classList.remove('input--bad');
+        warningName.classList.remove('warning--open');
         return;
     }
 
     if (!isNameValid(userName)) {
         err = 'При вводе имени используйте только буквы и цифры';
+        userNameGlobal = '';
 
     } else if (!isNameLengthGood(userName)) {
         err = 'Имя должно быть больше 2 и меньше 16 символов';
+        userNameGlobal = '';
+
 
     } else if (!isNameUnique(userName, arr)) {
         err = 'пользователь с таким именем уже существует';
+        userNameGlobal = '';
+
 
     }
 
@@ -80,11 +92,14 @@ function nameValidation(userName, arr = users) {
         warningName.textContent = err;
         return;
 
-    } else if (userNameInput.classList.contains('input--bad')) {
+    }
+
+    if (userNameInput.classList.contains('input--bad')) {
         userNameInput.classList.remove('input--bad');
         warningName.classList.remove('warning--open')
     }
 
+    userNameGlobal = userName;
     return userName;
 }
 
@@ -93,17 +108,25 @@ function passwordValidation() {
     let err;
 
     if (!userPassword) {
+        err = '';
+        userPasswordInput.classList.remove('input--bad');
+        warningPassword.classList.remove('warning--open');
         return;
     }
 
     if (!isPasswordLengthGood(userPassword)) {
         err = 'Слишком короткий пароль';
+        userPasswordGlobal = '';
 
     } else if (!isPasswordLatin(userPassword)) {
         err = 'Используйте только латинский алфавит';
+        userPasswordGlobal = '';
+
 
     } else if (!isPasswordPopular(userPassword)) {
         err = 'Ваш пароль входит в ТОП самых простых и распространённых паролей. Придумайте более сложный пароль';
+        userPasswordGlobal = '';
+
 
     }
 
@@ -114,11 +137,13 @@ function passwordValidation() {
         warningPassword.textContent = err;
         return;
 
-    } else if (userPasswordInput.classList.contains('input--bad')) {
+    }
+    if (userPasswordInput.classList.contains('input--bad')) {
         userPasswordInput.classList.remove('input--bad');
         warningPassword.classList.remove('warning--open');
     }
 
+    userPasswordGlobal = userPassword;
     return userPassword;
 }
 
@@ -127,14 +152,21 @@ function emailValidation(userEmail, arr = users) {
     let err;
 
     if (!userEmail) {
+        err = '';
+        userEmailInput.classList.remove('input--bad');
+        warningEmail.classList.remove('warning--open');
         return;
     }
 
     if (!isEmailUnique(userEmail, arr)) {
         err = 'Пользователь с такой почтой уже зарегестрирован'
+        userEmailGlobal = '';
+
 
     } else if (!isEmaiValid(userEmail)) {
         err = 'Введите валидный email'
+        userEmailGlobal = '';
+
     }
 
     if (err) {
@@ -144,23 +176,19 @@ function emailValidation(userEmail, arr = users) {
         warningEmail.textContent = err;
         return;
 
-    } else if (userEmailInput.classList.contains('input--bad')) {
+    }
+    if (userEmailInput.classList.contains('input--bad')) {
         userEmailInput.classList.remove('input--bad');
         warningEmail.classList.remove('warning--open');
 
     }
-
+    userEmailGlobal = userEmail;
     return userEmail.toLowerCase();
 }
 
 function finalCheck(e) {
 
-    const email = emailValidation();
-    const name = nameValidation();
-    const password = passwordValidation();
-
-
-    if (name && email && password && userLookingFor.value && userConfirm18.checked) {
+    if (userNameGlobal && userEmailGlobal && userPasswordGlobal && userLookingFor.value && userConfirm18.checked) {
         userLink.classList.add('registration-screen__link--active');
         userLink.href = '#hello';
 
@@ -194,6 +222,9 @@ function finalCheck(e) {
     }
 }
 
-userForm.addEventListener('input', _.debounce(finalCheck, 600));
 userForm.addEventListener('click', (e) => e.target === userLink && !userLink.classList.contains('registration-screen__link--active') ? e.preventDefault() : undefined);
 formBtn.addEventListener('click', (e) => e.target === userLink && userLink.classList.contains('registration-screen__link--active') ? console.log('good') : e.preventDefault());
+userNameInput.addEventListener('input', _.debounce(nameValidation, 500));
+userEmailInput.addEventListener('blur', emailValidation);
+userPasswordInput.addEventListener('input', passwordValidation)
+userForm.addEventListener('input', finalCheck);
